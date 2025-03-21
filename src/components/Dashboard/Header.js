@@ -11,7 +11,7 @@ const Header = () => {
         <Link to="/dashboard" className="px-4 py-2">
           Dashboard
         </Link>
-        <Link to="/dashboard/create-bill" className="px-4 py-2">
+        <Link to="/create-bill" className="px-4 py-2">
           Create Bill
         </Link>
 
@@ -41,7 +41,7 @@ const Header = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link to="/dashboard/create-bill" className="block px-4 py-2 hover:bg-gray-100">
+                  <Link to="/create-bill" className="block px-4 py-2 hover:bg-gray-100">
                     Create Bill
                   </Link>
                 </li>
