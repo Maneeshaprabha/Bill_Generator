@@ -1,7 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import TransactionTable from "../components/Dashboard/TransactionTable";
 
-
+// Mock data for transactions
+const Transactions = [
+  { id: "INV-001", customerName: "John Smith", total: 125.50, date: "Mar 18, 2025", status: "PAID" },
+  { id: "INV-002", customerName: "Sarah Johnson", total: 89.99, date: "Mar 17, 2025", status: "PAID" },
+  { id: "INV-003", customerName: "Michael Brown", total: 210.75, date: "Mar 15, 2025", status: "PAID" },
+  { id: "INV-004", customerName: "Emily Davis", total: 45.00, date: "Mar 14, 2025", status: "PAID" },
+  { id: "INV-005", customerName: "Robert Wilson", total: 175.25, date: "Mar 12, 2025", status: "PAID" },
+  { id: "INV-006", customerName: "Jennifer Taylor", total: 62.50, date: "Mar 10, 2025", status: "PAID" },
+];
 
 const Test = () => {
   return (
@@ -38,8 +47,8 @@ const Test = () => {
       <div className="flex gap-4 mb-6">
         <button className="bg-gray-100 px-4 py-2 rounded-md">Overview</button>
         <button className="bg-white px-4 py-2 rounded-md border">Recent Transactions</button>
-      </div>
-  
+        </div>
+      <TransactionTable transactions={Transactions} />
     </div>
   );
 };
