@@ -1,9 +1,36 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { FaReceipt } from "react-icons/fa";
 
 const Register = () => {
- 
+  const navigate = useNavigate();
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
+
+  // Handle form submission
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // Basic validation
+    if (password !== confirmPassword) {
+      setError("Passwords do not match.");
+      return;
+    }
+
+    if (!fullName || !email || !password || !confirmPassword) {
+      setError("All fields are required.");
+      return;
+    }
+
+    // Assuming a successful registration (could be replaced with actual API call)
+    setError(""); // Reset error message
+    console.log("User registered:", { fullName, email, password });
+    // Redirect to login page
+    navigate("/login");
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -15,14 +42,18 @@ const Register = () => {
         <p className="text-gray-600 text-center mb-6">
           Enter your information to create an account
         </p>
-        <form  className="space-y-4">
+        {/* Error Message Display */}
+        {error && <p className="text-red-500 text-center mb-4">{error}</p>}
+
+        <form className="space-y-4" onSubmit={handleSubmit}>
           <div>
             <label className="block text-sm font-medium text-gray-700">
               Full Name
             </label>
             <input
               type="text"
-              defaultValue="John Doe"
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
               className="mt-1 w-full p-2 border border-gray-300 rounded-md focus:ring-gray-500 focus:border-gray-500"
             />
           </div>
@@ -32,7 +63,8 @@ const Register = () => {
             </label>
             <input
               type="email"
-              defaultValue="name@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="mt-1 w-full p-2 border border-gray-300 rounded-md focus:ring-gray-500 focus:border-gray-500"
             />
           </div>
@@ -42,6 +74,8 @@ const Register = () => {
             </label>
             <input
               type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               className="mt-1 w-full p-2 border border-gray-300 rounded-md focus:ring-gray-500 focus:border-gray-500"
             />
           </div>
@@ -51,6 +85,8 @@ const Register = () => {
             </label>
             <input
               type="password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
               className="mt-1 w-full p-2 border border-gray-300 rounded-md focus:ring-gray-500 focus:border-gray-500"
             />
           </div>
