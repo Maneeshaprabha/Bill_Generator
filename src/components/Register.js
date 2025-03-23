@@ -25,10 +25,10 @@ const Register = () => {
       return;
     }
 
-    // Assuming a successful registration (could be replaced with actual API call)
-    setError(""); // Reset error message
+    
+    setError(""); 
     console.log("User registered:", { fullName, email, password });
-    // Redirect to login page
+
     navigate("/login");
   };
 
