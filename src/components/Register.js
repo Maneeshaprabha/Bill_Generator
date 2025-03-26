@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { FaReceipt } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -11,83 +11,78 @@ const Register = () => {
   const [error, setError] = useState("");
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
 
-    // Basic validation
     if (password !== confirmPassword) {
       setError("Passwords do not match.");
       return;
     }
 
-    if (!fullName || !email || !password || !confirmPassword) {
-      setError("All fields are required.");
-      return;
+    try {
+      const res = await axios.post("http://localhost:5000/api/auth/register", {
+        fullName,
+        email,
+        password,
+      });
+
+      // Save token in localStorage
+      localStorage.setItem("token", res.data.token);
+      navigate("/login"); // Redirect to login page
+    } catch (error) {
+      setError(error.response?.data?.error || "Registration failed");
     }
-
-    
-    setError(""); 
-    console.log("User registered:", { fullName, email, password });
-
-    navigate("/login");
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-        <div className="flex justify-center mb-4">
-          <FaReceipt className="text-3xl" />
-        </div>
         <h2 className="text-2xl font-bold text-center mb-2">Create an account</h2>
         <p className="text-gray-600 text-center mb-6">
           Enter your information to create an account
         </p>
-        {/* Error Message Display */}
+
         {error && <p className="text-red-500 text-center mb-4">{error}</p>}
 
-        <form className="space-y-4" onSubmit={handleSubmit}>
+        <form className="space-y-4" onSubmit={handleRegister}>
           <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Full Name
-            </label>
+            <label className="block text-sm font-medium text-gray-700">Full Name</label>
             <input
               type="text"
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
-              className="mt-1 w-full p-2 border border-gray-300 rounded-md focus:ring-gray-500 focus:border-gray-500"
+              className="mt-1 w-full p-2 border border-gray-300 rounded-md"
+              required
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Email
-            </label>
+            <label className="block text-sm font-medium text-gray-700">Email</label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="mt-1 w-full p-2 border border-gray-300 rounded-md focus:ring-gray-500 focus:border-gray-500"
+              className="mt-1 w-full p-2 border border-gray-300 rounded-md"
+              required
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Password
-            </label>
+            <label className="block text-sm font-medium text-gray-700">Password</label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="mt-1 w-full p-2 border border-gray-300 rounded-md focus:ring-gray-500 focus:border-gray-500"
+              className="mt-1 w-full p-2 border border-gray-300 rounded-md"
+              required
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Confirm Password
-            </label>
+            <label className="block text-sm font-medium text-gray-700">Confirm Password</label>
             <input
               type="password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              className="mt-1 w-full p-2 border border-gray-300 rounded-md focus:ring-gray-500 focus:border-gray-500"
+              className="mt-1 w-full p-2 border border-gray-300 rounded-md"
+              required
             />
           </div>
           <button
@@ -99,9 +94,9 @@ const Register = () => {
         </form>
         <p className="text-center mt-4 text-gray-600">
           Already have an account?{" "}
-          <Link to="/login" className="text-gray-800 hover:underline">
+          <a href="/login" className="text-gray-800 hover:underline">
             Login
-          </Link>
+          </a>
         </p>
       </div>
     </div>
